@@ -1,35 +1,41 @@
 {
-  "name": "roguelike-web",
-  "devDependencies": {
-    "@eslint/js": "^9.39.1",
-    "@types/bun": "latest",
-    "@types/react": "^19.2.6",
-    "@types/react-dom": "^19.2.3",
-    "eslint": "^9.39.1",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.4",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "prettier": "^3.6.2",
-    "prettier-plugin-organize-imports": "^4.3.0",
-    "prettier-plugin-tailwindcss": "^0.7.1",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "tailwindcss": "^4.1.17",
-    "typescript-eslint": "^8.47.0"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
-  },
-  "private": true,
-  "scripts": {
-    "dev:client": "bun build src/client/index.tsx --watch --outdir public --sourcemap=external",
-    "dev:server": "bun --watch src/server/index.ts",
-    "dev": "bun run dev:server & bun run dev:client",
-    "build:client": "bun build src/client/index.tsx --minify --outdir public --target browser",
-    "build:server": "bun build src/server/index.ts --outdir dist --target bun",
-    "build": "bun run build:client && bun run build:server",
-    "start:server": "bun dist/index.js",
-    "clean": "rm -rf dist public/index.js public/index.js.map"
-  }
+    "name": "roguelike-web",
+    "devDependencies": {
+        "@eslint/js": "^9.39.1",
+        "@tailwindcss/cli": "^4.1.17",
+        "@types/bun": "latest",
+        "@types/react": "^19.2.6",
+        "@types/react-dom": "^19.2.3",
+        "eslint": "^9.39.1",
+        "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-prettier": "^5.5.4",
+        "eslint-plugin-react": "^7.37.5",
+        "eslint-plugin-react-hooks": "^7.0.1",
+        "prettier": "^3.6.2",
+        "prettier-plugin-organize-imports": "^4.3.0",
+        "prettier-plugin-tailwindcss": "^0.7.1",
+        "react": "^19.2.0",
+        "react-dom": "^19.2.0",
+        "tailwindcss": "^4.1.17",
+        "typescript-eslint": "^8.47.0"
+    },
+    "peerDependencies": {
+        "typescript": "^5"
+    },
+    "private": true,
+    "scripts": {
+        "dev:client:code": "bun build ./src/client/index.tsx --watch --outdir ./public --sourcemap=external",
+        "dev:client:style": "bunx tailwindcss -i ./src/client/app.css -o ./public/style.css --watch",
+        "dev:server:code": "bun --watch ./src/server/index.ts",
+        "dev": "bun run dev:server:code & bun run dev:client:style & bun run dev:client:code",
+        "build:client:code": "bun build ./src/client/index.tsx --minify --outdir ./public --target browser",
+        "build:client:style": "bunx tailwindcss -i ./src/client/app.css -o ./public/style.css",
+        "build:server:code": "bun build ./src/server/index.ts --outdir ./dist --target bun",
+        "build": "bun run build:client:code && bun run build:client:style && bun run build:server:code",
+        "clean:client:code": "rm -f public/index.js public/index.js.map",
+        "clean:client:style": "rm -f public/style.css",
+        "clean:server:code": "rm -f dist/index.js dist/index.js.map",
+        "clean": "bun run clean:client:code && bun run clean:client:style && bun run clean:server:code",
+        "start:server": "bun dist/index.js"
+    }
 }
