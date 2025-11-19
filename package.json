@@ -1,0 +1,24 @@
+{
+  "name": "roguelike-web",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/react": "^19.2.6",
+    "@types/react-dom": "^19.2.3",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "private": true,
+  "scripts": {
+    "dev:client": "bun build src/client/index.tsx --watch --outdir public --sourcemap=external",
+    "dev:server": "bun --watch src/server/index.ts",
+    "dev": "bun run dev:server & bun run dev:client",
+    "build:client": "bun build src/client/index.tsx --minify --outdir public --target browser",
+    "build:server": "bun build src/server/index.ts --outdir dist --target bun",
+    "build": "bun run build:client && bun run build:server",
+    "start:server": "bun dist/index.js",
+    "clean": "rm -rf dist public/index.js public/index.js.map"
+  }
+}
