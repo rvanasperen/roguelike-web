@@ -1,10 +1,39 @@
-// @ts-check
+import js from '@eslint/js';
+import prettierConfig from 'eslint-config-prettier/flat';
+import prettierPlugin from 'eslint-plugin-prettier/recommended';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import typescript from 'typescript-eslint';
 
-import eslint from '@eslint/js';
-import { defineConfig } from 'eslint/config';
-import tselint from 'typescript-eslint';
-
-export default defineConfig(
-    eslint.configs.recommended,
-    tselint.configs.recommended,
-);
+export default [
+    js.configs.recommended,
+    ...typescript.configs.recommended,
+    {
+        ...react.configs.flat.recommended,
+        ...react.configs.flat['jsx-runtime'], // Required for React 17+
+        rules: {
+            'react/react-in-jsx-scope': 'off',
+            'react/prop-types': 'off',
+            'react/no-unescaped-entities': 'off',
+        },
+        settings: {
+            react: {
+                version: 'detect',
+            },
+        },
+    },
+    {
+        plugins: {
+            'react-hooks': reactHooks,
+        },
+        rules: {
+            'react-hooks/rules-of-hooks': 'error',
+            'react-hooks/exhaustive-deps': 'warn',
+        },
+    },
+    {
+        ignores: ['dist', 'node_modules', 'public'],
+    },
+    prettierPlugin,
+    prettierConfig, // Turn off all rules that might conflict with Prettier
+];

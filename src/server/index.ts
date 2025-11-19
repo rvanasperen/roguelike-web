@@ -1,15 +1,15 @@
-import { file, serve } from "bun";
+import { file, serve } from 'bun';
 
 serve({
     port: 8000,
     routes: {
-        "/api": () => new Response("Api"),
+        '/api': () => new Response('Api'),
     },
     async fetch(req) {
         const url = new URL(req.url);
 
-        if (url.pathname === "/") {
-            return new Response(file("public/index.html"));
+        if (url.pathname === '/') {
+            return new Response(file('public/index.html'));
         }
 
         const filePath = `public${url.pathname}`;
