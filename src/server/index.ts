@@ -53,17 +53,20 @@ const server = serve({
 
 console.log(`Server running on ${server.url}`);
 
-['public/index.js', 'public/style.css'].forEach((file) => {
-    watch(file, () => {
-        console.log('[HMR] Change detected', file);
+['public/index.js', 'public/style.css'].forEach((path) => {
+    try {
+        watch(path, () => {
+            console.log('[HMR] Change detected', path);
 
-        for (const ws of clients) {
-            ws.send(
-                JSON.stringify({
-                    type: 'hmr',
-                    payload: 'reload',
-                }),
-            );
-        }
-    });
+            for (const ws of clients) {
+                ws.send(
+                    JSON.stringify({
+                        type: 'hmr',
+                    }),
+                );
+            }
+        });
+    } catch (err) {
+        console.error(`Failed to watch ${path}`, err);
+    }
 });
